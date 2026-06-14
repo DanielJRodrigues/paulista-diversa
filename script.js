@@ -1,164 +1,529 @@
-/* =========================================
-   NAVBAR
-========================================= */
+/* ==========================================
+   PAULISTA DIVERSA
+   SCRIPT.JS
+========================================== */
 
-const navbar =
-  document.querySelector(".navbar");
+
+/* ==========================================
+NAVBAR AO ROLAR
+========================================== */
+
+const navbar = document.querySelector(".navbar");
 
 window.addEventListener("scroll", () => {
 
   if(window.scrollY > 40){
 
-    navbar.classList.add(
-      "navbar-scrolled"
-    );
+    navbar.style.background =
+      "rgba(255,255,255,.90)";
 
-  }else{
+    navbar.style.boxShadow =
+      "0 8px 30px rgba(0,0,0,.08)";
 
-    navbar.classList.remove(
-      "navbar-scrolled"
-    );
+  }
+
+  else{
+
+    navbar.style.background =
+      "rgba(255,255,255,.65)";
+
+    navbar.style.boxShadow =
+      "none";
+
   }
 
 });
 
-/* =========================================
-   REVEAL
-========================================= */
+
+
+
+
+/* ==========================================
+ANIMAÇÃO REVEAL
+========================================== */
 
 const reveals =
-  document.querySelectorAll(".reveal");
 
-function revealOnScroll(){
+document.querySelectorAll(
 
-  const trigger =
-    window.innerHeight * 0.85;
+".section"
 
-  reveals.forEach((element) => {
+);
 
-    const top =
-      element.getBoundingClientRect().top;
 
-    if(top < trigger){
+const observer =
 
-      element.classList.add("active");
-    }
+new IntersectionObserver(
 
-  });
+(entries)=>{
+
+
+entries.forEach((entry)=>{
+
+
+if(
+
+entry.isIntersecting
+
+){
+
+entry.target.classList.add(
+
+"show"
+
+);
 
 }
 
-window.addEventListener(
-  "scroll",
-  revealOnScroll
+});
+
+
+},
+
+{
+
+threshold:0.15
+
+}
+
 );
 
-revealOnScroll();
 
-/* =========================================
-   CURSOR GLOW
-========================================= */
 
-const glow =
-  document.querySelector(".cursor-glow");
 
-window.addEventListener("mousemove", (e) => {
+reveals.forEach((element)=>{
 
-  glow.style.left =
-    `${e.clientX}px`;
+element.classList.add(
 
-  glow.style.top =
-    `${e.clientY}px`;
+"hidden"
 
-});
+);
 
-/* =========================================
-   MAGNETIC BUTTONS
-========================================= */
+observer.observe(
 
-const magneticButtons =
-  document.querySelectorAll(".magnetic");
+element
 
-magneticButtons.forEach((button) => {
-
-  button.addEventListener("mousemove", (e) => {
-
-    const rect =
-      button.getBoundingClientRect();
-
-    const x =
-      e.clientX - rect.left - rect.width / 2;
-
-    const y =
-      e.clientY - rect.top - rect.height / 2;
-
-    button.style.transform =
-      `
-      translate(
-        ${x * 0.15}px,
-        ${y * 0.25}px
-      )
-      `;
-  });
-
-  button.addEventListener("mouseleave", () => {
-
-    button.style.transform =
-      "translate(0px,0px)";
-  });
+);
 
 });
 
-/* =========================================
-   3D CARD EFFECT
-========================================= */
 
-const cards =
-  document.querySelectorAll(
-    ".hover-card"
-  );
 
-cards.forEach((card) => {
 
-  card.addEventListener("mousemove", (e) => {
 
-    const rect =
-      card.getBoundingClientRect();
 
-    const x =
-      e.clientX - rect.left;
 
-    const y =
-      e.clientY - rect.top;
+/* ==========================================
+MENU ATIVO
+========================================== */
 
-    const centerX =
-      rect.width / 2;
+const sections =
 
-    const centerY =
-      rect.height / 2;
+document.querySelectorAll(
 
-    const rotateX =
-      (y - centerY) / 18;
+"section"
 
-    const rotateY =
-      (centerX - x) / 18;
+);
 
-    card.style.transform =
-      `
-      rotateX(${rotateX}deg)
-      rotateY(${rotateY}deg)
-      translateY(-8px)
-      `;
-  });
 
-  card.addEventListener("mouseleave", () => {
+const navLinks =
 
-    card.style.transform =
-      `
-      rotateX(0deg)
-      rotateY(0deg)
-      translateY(0px)
-      `;
-  });
+document.querySelectorAll(
+
+".navbar a"
+
+);
+
+
+
+
+window.addEventListener(
+
+"scroll",
+
+()=>{
+
+
+let current = "";
+
+
+sections.forEach((section)=>{
+
+
+const sectionTop =
+
+section.offsetTop - 180;
+
+
+const sectionHeight =
+
+section.offsetHeight;
+
+
+
+if(
+
+window.scrollY >= sectionTop &&
+
+window.scrollY <
+
+sectionTop + sectionHeight
+
+){
+
+current =
+
+section.getAttribute(
+
+"id"
+
+);
+
+}
+
 
 });
+
+
+
+
+navLinks.forEach((link)=>{
+
+
+link.classList.remove(
+
+"active"
+
+);
+
+
+
+if(
+
+link.getAttribute(
+
+"href"
+
+)
+
+===
+
+"#" + current
+
+){
+
+link.classList.add(
+
+"active"
+
+);
+
+}
+
+});
+
+
+}
+
+);
+
+
+
+
+
+
+
+
+/* ==========================================
+EFEITO NA GALERIA
+========================================== */
+
+const galleryCards =
+
+document.querySelectorAll(
+
+".gallery-card"
+
+);
+
+
+
+galleryCards.forEach((card)=>{
+
+
+card.addEventListener(
+
+"mouseenter",
+
+()=>{
+
+
+card.style.transform =
+
+"translateY(-10px)";
+
+
+});
+
+
+
+card.addEventListener(
+
+"mouseleave",
+
+()=>{
+
+
+card.style.transform =
+
+"translateY(0px)";
+
+
+});
+
+});
+
+
+
+
+
+
+
+
+/* ==========================================
+SCROLL SUAVE PARA LINKS INTERNOS
+========================================== */
+
+document
+
+.querySelectorAll(
+
+'a[href^="#"]'
+
+)
+
+.forEach(anchor=>{
+
+
+anchor.addEventListener(
+
+"click",
+
+function(e){
+
+e.preventDefault();
+
+
+const target =
+
+document.querySelector(
+
+this.getAttribute(
+
+"href"
+
+)
+
+);
+
+
+if(target){
+
+target.scrollIntoView({
+
+behavior:"smooth",
+
+block:"start"
+
+});
+
+}
+
+
+}
+
+);
+
+
+});
+
+
+
+
+
+
+
+
+/* ==========================================
+ANIMAÇÃO DA LOGO
+========================================== */
+
+const logo =
+
+document.querySelector(
+
+".hero-logo-wrapper img"
+
+);
+
+
+window.addEventListener(
+
+"mousemove",
+
+(e)=>{
+
+
+const x =
+
+(window.innerWidth / 2
+
+- e.clientX)
+
+/
+
+50;
+
+
+const y =
+
+(window.innerHeight / 2
+
+- e.clientY)
+
+/
+
+50;
+
+
+
+logo.style.transform =
+
+`
+
+translate(
+
+${-x}px,
+
+${-y}px
+
+)
+
+`;
+
+
+
+}
+
+);
+
+
+
+
+
+
+
+
+/* ==========================================
+PARALLAX DO HERO
+========================================== */
+
+const gradient1 =
+
+document.querySelector(
+
+".hero-gradient-1"
+
+);
+
+
+const gradient2 =
+
+document.querySelector(
+
+".hero-gradient-2"
+
+);
+
+
+
+
+window.addEventListener(
+
+"scroll",
+
+()=>{
+
+
+const scroll =
+
+window.scrollY;
+
+
+
+gradient1.style.transform =
+
+`translateY(${scroll * 0.20}px)`;
+
+
+gradient2.style.transform =
+
+`translateY(${-scroll * 0.15}px)`;
+
+
+}
+
+);
+
+
+
+
+
+
+
+/* ==========================================
+FADE IN HERO
+========================================== */
+
+window.addEventListener(
+
+"load",
+
+()=>{
+
+
+document.querySelector(
+
+".hero-left"
+
+).style.opacity = "1";
+
+
+document.querySelector(
+
+".hero-right"
+
+).style.opacity = "1";
+
+
+document.querySelector(
+
+".hero-left"
+
+).style.transform =
+
+"translateY(0px)";
+
+
+document.querySelector(
+
+".hero-right"
+
+).style.transform =
+
+"translateY(0px)";
+
+
+}
+
+);
